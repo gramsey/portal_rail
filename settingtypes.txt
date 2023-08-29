@@ -1,2 +1,5 @@
 #    Number of blocks (metres) the portal rail will teleport the cart.
 portal_rail_jump_distance (Jump Distance) int 500
+
+#    Teleport diagonally when the rail is slopped.
+portal_rail_diagonal_teleport (Teleport Diagonally) bool false

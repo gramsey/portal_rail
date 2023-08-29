@@ -4,19 +4,24 @@ local S = minetest.get_translator("portal_rail")
 local function portal_on_step(cart, dtime)
 	local jump = minetest.settings:get("portal_rail_jump_distance") or 500
 	local jmp_pos = table.copy(cart.old_pos)
+	local move_diagonally = minetest.settings:get_bool("portal_rail_diagonal_teleport") or false
 
 	if cart.old_dir.y == -1  then
 		jmp_pos.y = jmp_pos.y - jump
 	elseif cart.old_dir.y == 1 then
 		jmp_pos.y = jmp_pos.y + jump
-	elseif cart.old_dir.x == -1  then
-		jmp_pos.x = jmp_pos.x - jump
-	elseif cart.old_dir.x == 1 then
-		jmp_pos.x = jmp_pos.x + jump
-	elseif cart.old_dir.z == -1  then
-		jmp_pos.z = jmp_pos.z - jump
-	elseif cart.old_dir.z == 1 then
-		jmp_pos.z = jmp_pos.z + jump
+	end
+
+	if cart.old_dir.y == 0 or move_diagonally then
+		if cart.old_dir.x == -1  then
+			jmp_pos.x = jmp_pos.x - jump
+		elseif cart.old_dir.x == 1 then
+			jmp_pos.x = jmp_pos.x + jump
+		elseif cart.old_dir.z == -1  then
+			jmp_pos.z = jmp_pos.z - jump
+		elseif cart.old_dir.z == 1 then
+			jmp_pos.z = jmp_pos.z + jump
+		end
 	end
 
 	minetest.load_area(jmp_pos)
